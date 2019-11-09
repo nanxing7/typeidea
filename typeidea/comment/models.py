@@ -13,7 +13,7 @@ class Comment(models.Model):
     )
     target = models.ForeignKey(Post, verbose_name="评论目标", on_delete=models.CASCADE)
     content = models.CharField(max_length=2000, verbose_name="内容")
-    nicekname = models.CharField(max_length=50, verbose_name="昵称")
+    nickname = models.CharField(max_length=50, verbose_name="昵称")
     website = models.URLField(verbose_name="网站")
     email = models.EmailField(verbose_name="邮箱")
     status = models.PositiveIntegerField(default=STATUS_NORMAL, choices=STATUS_ITEMS, verbose_name="状态")
@@ -21,3 +21,6 @@ class Comment(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "评论"
+
+    def __str__(self):
+        return self.nickname
