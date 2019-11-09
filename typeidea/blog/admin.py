@@ -4,12 +4,13 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from blog.adminforms import PostAdminForm
+from typeidea.custom_site import custom_site
 from .models import Post, Category, Tag
 
 
 # Register your models here.
 
-@admin.register(Category)
+@admin.register(Category, site=custom_site)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count')
     fields = ('name', 'status', 'is_nav',)
@@ -24,7 +25,7 @@ class CategoryAdmin(admin.ModelAdmin):
     post_count.short_description = '文章数量'
 
 
-@admin.register(Tag)
+@admin.register(Tag, site=custom_site)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'created_time', 'post_count',)
     fields = ('name', 'status',)
@@ -55,7 +56,7 @@ class CategoryOwnerFilter(admin.SimpleListFilter):
         return queryset
 
 
-@admin.register(Post)
+@admin.register(Post, site=custom_site)
 class PostAdmin(admin.ModelAdmin):
     """定制的文章发表界面"""
     list_display = [
@@ -105,9 +106,14 @@ class PostAdmin(admin.ModelAdmin):
     )
 
     def operator(self, obj):
+        """
+        自定义
+        :param obj:
+        :return:
+        """
         return format_html(
             '<a href="{}">编辑</a>',
-            reverse('admin:blog_post_change', args=(obj.id,)),
+            reverse('cus_admin:blog_post_change', args=(obj.id,)),
         )
 
     operator.short_description = '操作'
