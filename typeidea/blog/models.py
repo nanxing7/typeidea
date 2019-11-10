@@ -20,7 +20,7 @@ class Category(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
     @classmethod
-    def get_nave(cls):
+    def get_navs(cls):
         categories = cls.objects.filter(status=cls.STATUS_NORMAL)
         nav_categories = []
         normal_categories = []

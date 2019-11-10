@@ -20,6 +20,8 @@ def post_list(request, category_id=None, tag_id=None):
         'tag': tag,
         'post_list': post_list,
     }
+    context.update(Category.get_navs())
+    print(context)
     return render(request, 'blog/list.html', context=context)
 
 
