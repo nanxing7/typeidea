@@ -39,9 +39,9 @@
     {% endfor %}
 </div>
 <div>侧边栏展示
-{% for sidebar in sidebars %}
-    <h4>{{ sidebar.content }}</h4>
-{% endfor %}
+    {% for sidebar in sidebars %}
+        <h4>{{ sidebar.content }}</h4>
+    {% endfor %}
 </div>
 </body>
 </html>

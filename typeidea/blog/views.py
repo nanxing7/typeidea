@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from config.models import SideBar
 from .models import Post, Tag, Category
 
 
@@ -14,11 +15,12 @@ def post_list(request, category_id=None, tag_id=None):
     elif category_id:
         post_list, category = Post.get_by_category(category_id)
     else:
-        post_list = Post.get_latest_posts()
+        post_list = Post.latest_posts()
     context = {
         'category': category,
         'tag': tag,
         'post_list': post_list,
+        'sidebars': SideBar.get_all(),
     }
     context.update(Category.get_navs())
     print(context)

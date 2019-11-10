@@ -82,6 +82,9 @@ class Post(models.Model):
     owner = models.ForeignKey(User, verbose_name="作者", on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
+    pv = models.PositiveIntegerField(default=1)
+    uv = models.PositiveIntegerField(default=1)
+
     class Meta:
         verbose_name = verbose_name_plural = "文章"
         ordering = ['-id']  # 根据 id 进行降序排序
@@ -91,6 +94,11 @@ class Post(models.Model):
 
     @classmethod
     def get_by_tag(cls, tag_id):
+        """
+        根据标签获取文章
+        :param tag_id:
+        :return:
+        """
         try:
             tag = Tag.objects.get(id=tag_id)
         except Tag.DoesNotExist:
@@ -102,6 +110,11 @@ class Post(models.Model):
 
     @classmethod
     def get_by_category(cls, category_id):
+        """
+        根据分类获取文章
+        :param category_id:
+        :return:
+        """
         try:
             category = Category.objects.get(id=category_id)
         except Tag.DoesNotExist:
@@ -112,9 +125,17 @@ class Post(models.Model):
         return post_list, category
 
     @classmethod
-    def get_latest_posts(cls):
+    def latest_posts(cls):
+        """
+        获取文章
+        :return:
+        """
         queryset = cls.objects.filter(status=Post.STATUS_NORMAL)
         return queryset
+
+    @classmethod
+    def hot_posts(cls):
+        return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
 # class PostTag(models.Model):
 #     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 #     post = models.ForeignKey(Post, on_delete=models.CASCADE)
