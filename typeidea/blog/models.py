@@ -25,6 +25,33 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def get_by_tag(cls, tag_id):
+        try:
+            tag = Tag.objects.get(id=tag_id)
+        except Tag.DoesNotExist:
+            tag = None
+            post_list = []
+        else:
+            post_list = tag.post_set.filter(status=Tag.STATUS_NORMAL).select_related('owner', 'category')
+        return post_list, tag
+
+    @classmethod
+    def get_by_category(cls, category_id):
+        try:
+            category = Category.objects.get(id=category_id)
+        except Tag.DoesNotExist:
+            category = None
+            post_list = []
+        else:
+            post_list = category.post_set.filter(status=Tag.STATUS_NORMAL).select_related('owner', 'category')
+        return post_list, category
+
+    @classmethod
+    def get_latest_posts(cls):
+        queryset = cls.objects.filter(status=Post.STATUS_NORMAL)
+        return queryset
+
 
 class Tag(models.Model):
     STATUS_NORMAL = 1
@@ -72,7 +99,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
 
 # class PostTag(models.Model):
 #     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

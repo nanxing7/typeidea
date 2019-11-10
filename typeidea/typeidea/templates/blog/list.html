@@ -9,7 +9,10 @@
 </head>
 <body>
 {% if tag %}
-    标签页
+    标签页:{{ tag.name }}
+{% endif %}
+{% if category %}
+    分类页:{{ category }}
 {% endif %}
 <ul>
     {% for post in post_list %}
@@ -17,7 +20,7 @@
             <a href="/post/{{ post.id }}.html">{{ post.title }}</a>
             <div>
                 <span>作者:{{ post.owner.username }}</span>
-                <span>分类:{{ post.category.name }}</span>
+                <span>类类别{{ post.category.name }}</span>
             </div>
             <p>{{ post.desc }}</p>
         </li>
