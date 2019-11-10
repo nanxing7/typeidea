@@ -4,20 +4,28 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from blog.adminforms import PostAdminForm
+from typeidea.base_admin import BaseOwnerAdmin
 from typeidea.custom_site import custom_site
 from .models import Post, Category, Tag
 
 
 # Register your models here.
 
+class PostInline(admin.TabularInline):  # 可选择继承自 admin.StackInline 获取不同的展示样式
+    """
+    内链
+    """
+    fields = ('title', 'desc')
+
+    extra = 1  # 控制额外多几个
+    model = Post
+
+
 @admin.register(Category, site=custom_site)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(BaseOwnerAdmin):
+    inlines = [PostInline, ]
     list_display = ('name', 'status', 'is_nav', 'created_time', 'post_count')
     fields = ('name', 'status', 'is_nav',)
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(CategoryAdmin, self).save_model(request, obj, form, change)
 
     def post_count(self, obj):
         return obj.post_set.count()
@@ -26,13 +34,9 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(Tag, site=custom_site)
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(BaseOwnerAdmin):
     list_display = ('name', 'status', 'created_time', 'post_count',)
     fields = ('name', 'status',)
-
-    def save_model(self, request, obj, form, change):
-        obj.owner = request.user
-        return super(TagAdmin, self).save_model(request, obj, form, change)
 
     def post_count(self, obj):
         return obj.post_set.count()
@@ -57,7 +61,7 @@ class CategoryOwnerFilter(admin.SimpleListFilter):
 
 
 @admin.register(Post, site=custom_site)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(BaseOwnerAdmin):
     """定制的文章发表界面"""
     list_display = [
         'title', 'category', 'status',
@@ -118,32 +122,16 @@ class PostAdmin(admin.ModelAdmin):
 
     operator.short_description = '操作'
 
-    def save_model(self, request, obj, form, change):
-        """
-        保存 model 调用的方法
-        :param request:
-        :param obj:
-        :param form:
-        :param change:
-        :return:
-        """
-        obj.owner = request.user
-        return super(PostAdmin, self).save_model(request, obj, form, change)
-
-    def get_queryset(self, request):
-        """
-        定义查询只查询登录用户的文章
-        :param request:
-        :return:
-        """
-        qs = super(PostAdmin, self).get_queryset(request)
-        return qs.filter(owner=request.user)
-
     class Media:
         css = {
             'all': ()
         }
         js = ()
-# @admin.register(LogEntry, site=custom_site)
-# class LogEntryAdmin(admin.ModelAdmin):
-#     list_display = ['object_repr', 'object_id', 'action_flag', 'user', 'change_message']
+
+
+@admin.register(LogEntry, site=custom_site)
+class LogEntryAdmin(admin.ModelAdmin):
+    """
+    查询所有变更记录
+    """
+    list_display = ['object_repr', 'object_id', 'action_flag', 'user', 'change_message']
