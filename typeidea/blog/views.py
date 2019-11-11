@@ -3,9 +3,16 @@ from django.http import HttpResponse
 
 from config.models import SideBar
 from .models import Post, Tag, Category
+from django.views.generic import DetailView
 
 
 # Create your views here.
+
+class PostDetailView(DetailView):
+    """用于展示详情的视图"""
+    model = Post
+    template_name = 'blog/detail.html'
+
 
 def post_list(request, category_id=None, tag_id=None):
     tag = None
@@ -25,11 +32,3 @@ def post_list(request, category_id=None, tag_id=None):
     context.update(Category.get_navs())
     print(context)
     return render(request, 'blog/list.html', context=context)
-
-
-def post_detail(request, post_id):
-    try:
-        post = Post.objects.get(id=post_id)
-    except Post.DoesNotExist:
-        post = None
-    return render(request, 'blog/detail.html', context={'post': post})
