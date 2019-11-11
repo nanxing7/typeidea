@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>文章列表</title>
+    <title>{% block title %}首页{% endblock %} - typeidea 博客系统</title>
 </head>
 <body>
 <div>顶部分类
@@ -14,30 +14,17 @@
     {% endfor %}
 </div>
 <hr/>
-{% if tag %}
-    标签页:{{ tag.name }}
-{% endif %}
-{% if category %}
-    分类页:{{ category }}
-{% endif %}
-<ul>
-    {% for post in post_list %}
-        <li>
-            <a href="/post/{{ post.id }}.html">{{ post.title }}</a>
-            <div>
-                <span>作者:{{ post.owner.username }}</span>
-                <span>类别{{ post.category.name }}</span>
-            </div>
-            <p>{{ post.desc }}</p>
-        </li>
-    {% endfor %}
-</ul>
-<hr/>
+
+{% block main %}
+{% endblock %}
+
 <div>底部分类
     {% for cate in categories %}
         <a href="/categories/{{ cate.id }}">{{ cate.name }}</a>
     {% endfor %}
 </div>
+<hr/>
+
 <div>侧边栏展示
     {% for sidebar in sidebars %}
         <h4>{{ sidebar.content }}</h4>
