@@ -5,6 +5,7 @@ from .forms import CommentForm
 
 
 class CommentView(TemplateView):
+    """评论View"""
     http_method_names = ['post']
     template_name = 'comment/result.html'
 
