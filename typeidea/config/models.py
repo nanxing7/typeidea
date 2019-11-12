@@ -54,6 +54,9 @@ class SideBar(models.Model):
     owner = models.ForeignKey(User, verbose_name="作者", on_delete=models.CASCADE)
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
 
+    def __str__(self):
+        return self.title
+
     @classmethod
     def get_all(cls):
         """
