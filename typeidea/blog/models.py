@@ -141,6 +141,10 @@ class Post(models.Model):
 
     @classmethod
     def hot_posts(cls):
+        """
+        获取最热文章
+        :return:
+        """
         return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
 # class PostTag(models.Model):
 #     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
