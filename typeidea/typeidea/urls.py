@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 
 from blog.rss import LatestPostFeed
+from blog.sitemap import PostSitemap
 from blog.views import CategoryView, PostDetailView, IndexView, TagView, SearchView, AuthorView
 from comment.views import CommentView
 from config.views import LinkListView
 from typeidea.custom_site import custom_site
+from django.contrib.sitemaps import views as sitemap_views
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -33,5 +35,6 @@ urlpatterns = [
     path('comment/', CommentView.as_view(), name="comment"),
     path('super_admin/', admin.site.urls, name='super-admin'),
     path('admin/', custom_site.urls, name='admin'),
-    path('rss/', LatestPostFeed(), name='rss')
+    path('rss/', LatestPostFeed(), name='rss'),
+    path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}})
 ]
