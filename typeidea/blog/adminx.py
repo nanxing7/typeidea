@@ -1,4 +1,5 @@
 import xadmin
+from xadmin import views
 from django.urls import reverse
 from django.utils.html import format_html
 from xadmin.layout import Fieldset, Row, Container
@@ -11,6 +12,11 @@ from .models import Post, Category, Tag
 
 
 # Register your models here.
+@xadmin.sites.register(views.BaseAdminView)
+class BaseSettings(object):
+    enable_themes = True  # 使用主题功能
+    use_bootswatch = True
+
 
 class PostInline:
     """内链"""
