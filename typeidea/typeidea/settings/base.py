@@ -123,3 +123,6 @@ TEMPLATES = [
         },
     },
 ]
+
+XADMIN_TITLE = "Typeide 管理后台"
+XADMIN_FOOTER_TITLE = "power by the5fire.com"
