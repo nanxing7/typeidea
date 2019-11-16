@@ -1,5 +1,6 @@
-import mistune
 from django.contrib.auth.models import User
+from django.utils.functional import cached_property
+import mistune
 from django.db import models
 
 
@@ -146,6 +147,11 @@ class Post(models.Model):
         :return:
         """
         return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+
+    @cached_property  # 将返回的数据绑定在实例上，不用每次访问都去执行 sitemap_tags 函数中的代码
+    def sitemap_tags(self):
+        """输出配置好的 tags """
+        return ','.join(self.tags.values_list('name', flat=True))
 # class PostTag(models.Model):
 #     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 #     post = models.ForeignKey(Post, on_delete=models.CASCADE)
