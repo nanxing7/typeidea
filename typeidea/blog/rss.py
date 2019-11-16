@@ -13,8 +13,14 @@ from django.utils.feedgenerator import Rss201rev2Feed
 from .models import Post
 
 
+class ExtendedRSSFeed(Rss201rev2Feed):
+    def add_item_elements(self, handler, item):
+        super(ExtendedRSSFeed, self).add_item_elements(handler, item)
+        handler.addQuickElement('content:html', item['content_html'])
+
+
 class LatestPostFeed(Feed):
-    feed_type = Rss201rev2Feed
+    feed_type = ExtendedRSSFeed
     title = "Typeidea is a blog system power by django"
     link = "/rss/"
     description = "typeidea is a blog system power by django"
@@ -30,3 +36,9 @@ class LatestPostFeed(Feed):
 
     def item_link(self, item):
         return reverse('post-detail', args=[item.pk])
+
+    def item_extra_kwargs(self, item):
+        return {'content_html': self.item_content_html(item)}
+
+    def item_content_html(self, item):
+        return item.content_html
