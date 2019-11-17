@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'config',
     'comment',
     'typeidea',
-    'dal',
-    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

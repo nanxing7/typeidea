@@ -25,7 +25,6 @@ from blog.views import CategoryView, PostDetailView, IndexView, TagView, SearchV
 from comment.views import CommentView
 from config.views import LinkListView
 from blog.apis import PostViewSet
-from .autocomplete import CategoryAutocomplete, TagAutocomplete
 from blog.rss import LatestPostFeed
 from blog.sitemap import PostSitemap
 
@@ -58,8 +57,6 @@ urlpatterns = [
     path('admin/', xadmin.site.urls, name='admin'),
     path('rss/', LatestPostFeed(), name='rss'),
     path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
-    path("category-autocomplete/", CategoryAutocomplete.as_view(), name='category-autocomplete'),
-    path("tag-autocomplete/", TagAutocomplete.as_view(), name='tag-autocomplete'),
     path('api/', include(router.urls), name="api"),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

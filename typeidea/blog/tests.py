@@ -32,15 +32,3 @@ class BlogTestCase(TestCase):
         client = Client()
         response = client.get('/')
         self.assertEqual(response.status_code, 200, 'status code must be 200!')
-
-    def test_get_autocomplete_category(self):
-        # 测试首页的可用性
-        client = Client()
-        response = client.get('/category-autocomplete/?q=py')
-        self.assertEqual(response.status_code, 200, 'status code must be 200!')
-
-    def test_get_autocomplete_tag(self):
-        # 测试首页的可用性
-        client = Client()
-        response = client.get('/tag-autocomplete/?q=py')
-        self.assertEqual(response.status_code, 200, 'status code must be 200!')
