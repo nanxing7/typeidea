@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'config',
     'comment',
     'typeidea',
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +130,8 @@ TEMPLATES = [
 
 XADMIN_TITLE = "Typeide 管理后台"
 XADMIN_FOOTER_TITLE = "power by the5fire.com"
+# 分页
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2,
+}
