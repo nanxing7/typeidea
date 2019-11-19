@@ -9,11 +9,12 @@ class BaseOwnerAdmin(admin.ModelAdmin):
 
     exclude = ('owner',)
 
-    def get_list_queryset(self):
-        request = self.request
-        qs = super().get_list_queryset()
+    def get_queryset(self, request):
+        """重写方法，返回当前用户的内容"""
+        qs = super(BaseOwnerAdmin, self).get_queryset(request)  # 执行父类方法，获取 request
         return qs.filter(owner=request.user)
 
-    def save_models(self):
-        self.new_obj.owner = self.request.user
-        return super().save_models()
+    def save_model(self, request, obj, form, change):
+        """重写方法，返回当前用户的内容"""
+        obj.owner = request.user
+        super().save_model(request, obj, form, change)

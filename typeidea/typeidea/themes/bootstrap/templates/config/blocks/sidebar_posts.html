@@ -1,4 +1,4 @@
-<ul class="links">
+<ul>
     {% for post in posts %}
         <l1><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></l1>
     {% endfor %}
