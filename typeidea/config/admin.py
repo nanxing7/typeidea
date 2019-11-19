@@ -1,17 +1,17 @@
-import xadmin
 from typeidea.base_admin import BaseOwnerAdmin
+from typeidea.custom_site import custom_site
 from .models import Link, SideBar
+from django.contrib import admin
 
 
 # Register your models here.
-
-@xadmin.sites.register(Link)
+@admin.register(Link, site=custom_site)
 class LinkAdmin(BaseOwnerAdmin):
     list_display = ('title', 'href', 'status', 'weight', 'created_time')
     fields = ('title', 'href', 'status', 'weight')
 
 
-@xadmin.sites.register(SideBar)
+@admin.register(SideBar)
 class SideBarAdmin(BaseOwnerAdmin):
     list_display = ('title', 'display_type', 'content', 'created_time')
     fields = ('title', 'display_type', 'content')

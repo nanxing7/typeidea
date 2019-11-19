@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import xadmin
+from django.contrib import admin
 from django.urls import path
 
 from blog.rss import LatestPostFeed
@@ -22,6 +22,8 @@ from blog.views import CategoryView, PostDetailView, IndexView, TagView, SearchV
 from comment.views import CommentView
 from config.views import LinkListView
 from django.contrib.sitemaps import views as sitemap_views
+
+from typeidea.custom_site import custom_site
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -33,7 +35,7 @@ urlpatterns = [
     path('author/<owner_id>', AuthorView.as_view(), name='author'),
     path('comment/', CommentView.as_view(), name="comment"),
     # path('super_admin/', xadmin.site.urls, name='super-admin'),
-    path('admin/', xadmin.site.urls, name='admin'),
+    path('admin/', custom_site.urls),
     path('rss/', LatestPostFeed(), name='rss'),
     path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}})
 ]
