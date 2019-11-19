@@ -34,7 +34,7 @@ urlpatterns = [
     path('search/', SearchView.as_view(), name='search'),
     path('author/<owner_id>', AuthorView.as_view(), name='author'),
     path('comment/', CommentView.as_view(), name="comment"),
-    # path('super_admin/', xadmin.site.urls, name='super-admin'),
+    path('super_admin/', admin.site.urls, name='super-admin'),
     path('admin/', custom_site.urls),
     path('rss/', LatestPostFeed(), name='rss'),
     path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}})

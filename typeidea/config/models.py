@@ -29,18 +29,25 @@ class Link(models.Model):
 
 
 class SideBar(models.Model):
+    """侧边栏模型"""
+
+    # 侧边栏类型代表的数字
     DISPLAY_HTML = 1
     DISPLAY_LATEST = 2
     DISPLAY_HOT = 3
     DISPLAY_COMMENT = 4
+
+    # 侧边栏 TYPE
     SIDE_TYPE = (
         (DISPLAY_HTML, 'HTML'),
         (DISPLAY_LATEST, '最新文章'),
         (DISPLAY_HOT, '最热文章'),
         (DISPLAY_COMMENT, '最近评论'),
     )
+    # 侧边栏展示代表的数字
     STATUS_SHOW = 1
     STATUS_HIDE = 0
+    # 侧边栏 TYPE
     STATUS_ITEMS = (
         (STATUS_SHOW, '展示'),
         (STATUS_HIDE, '隐藏'),
@@ -59,10 +66,7 @@ class SideBar(models.Model):
 
     @classmethod
     def get_all(cls):
-        """
-        获取所有侧边栏内容
-        :return:
-        """
+        """获取所有侧边栏内容"""
         return cls.objects.filter(status=cls.STATUS_SHOW)
 
     @property

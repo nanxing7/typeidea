@@ -10,6 +10,7 @@ from django.contrib.admin import AdminSite
 
 
 class CustomSite(AdminSite):
+    """自定义站点"""
     site_header = 'Typeidea'
     site_title = 'Typeidea 管理后台'
     index_title = '首页'
@@ -21,4 +22,5 @@ class CustomSite(AdminSite):
         return request.user.is_superuser
 
 
+# 实例化 custom_site
 custom_site = CustomSite(name='cus_admin')

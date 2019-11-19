@@ -15,4 +15,6 @@ class Command(BaseCommand):
     help = 'create test datas'
 
     def handle(self, *args, **options):
+        user = get_user_model().objects.get_or_create(email='test@test.com', username='测试用户',
+                                                      password='test!q@w#eTYU')[0]
         self.stdout.write(self.style.SUCCESS('created test datas \n'))

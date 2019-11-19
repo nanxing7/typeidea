@@ -11,7 +11,7 @@
 {% endblock %}
 {% block main %}
     {% for post in post_list %}
-        <div class="card">
+        <div class="card post">
             <div class="card-body">
                 <h5 class="card-title"><a href={% url 'post-detail' post.id %}>{{ post.title }}</a></h5>
                 <span class="card-link">作者:<a

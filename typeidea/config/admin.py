@@ -11,7 +11,7 @@ class LinkAdmin(BaseOwnerAdmin):
     fields = ('title', 'href', 'status', 'weight')
 
 
-@admin.register(SideBar)
+@admin.register(SideBar, site=custom_site)
 class SideBarAdmin(BaseOwnerAdmin):
     list_display = ('title', 'display_type', 'content', 'created_time')
     fields = ('title', 'display_type', 'content')
