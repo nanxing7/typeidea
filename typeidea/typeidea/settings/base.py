@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'config',
     'comment',
     'typeidea',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,5 +123,7 @@ TEMPLATES = [
     },
 ]
 
-XADMIN_TITLE = "Typeide 管理后台"
-XADMIN_FOOTER_TITLE = "power by the5fire.com"
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 2,
+}

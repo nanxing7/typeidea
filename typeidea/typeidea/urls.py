@@ -14,16 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.contrib.sitemaps import views as sitemap_views
+
+from rest_framework.routers import DefaultRouter
 
 from blog.rss import LatestPostFeed
 from blog.sitemap import PostSitemap
 from blog.views import CategoryView, PostDetailView, IndexView, TagView, SearchView, AuthorView
 from comment.views import CommentView
 from config.views import LinkListView
-from django.contrib.sitemaps import views as sitemap_views
-
 from typeidea.custom_site import custom_site
+from blog.apis import PostViewSet, CategoryViewSet
+
+router = DefaultRouter()
+router.register(r'post', PostViewSet, base_name='api-post')
+router.register(r'category', CategoryViewSet, base_name='api-category')
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -37,5 +43,6 @@ urlpatterns = [
     path('super_admin/', admin.site.urls, name='super-admin'),
     path('admin/', custom_site.urls),
     path('rss/', LatestPostFeed(), name='rss'),
-    path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}})
+    path('sitemap.xml', sitemap_views.sitemap, {'sitemaps': {'posts': PostSitemap}}),
+    path('api/', include(router.urls)),
 ]
