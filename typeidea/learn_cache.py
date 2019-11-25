@@ -7,24 +7,29 @@
 # @Software: PyCharm
 import functools
 import time
-
-CACHE = {}
-
-
-def cache_it(func):
-    @functools.wraps(func)
-    def inner(*args, **kwargs):
-        key = repr(*args, **kwargs)
-        result = CACHE.get(key)
-        if not result:
-            result = func(*args, **kwargs)
-            CACHE[key] = result
-        return result
-
-    return inner
+from my_lrucache import LRUCacheDict
 
 
-@cache_it
+def cache_it(maxsize=1024, expiration=60):
+    CACHE = LRUCacheDict(max_size=maxsize, expiration=expiration)
+
+    def wrapper(func):
+        @functools.wraps(func)
+        def inner(*args, **kwargs):
+            key = repr(*args, **kwargs)
+            try:
+                result = CACHE['key']
+            except KeyError:
+                result = func(*args, **kwargs)
+                CACHE[key] = result
+            return result
+
+        return inner
+
+    return wrapper
+
+
+@cache_it(maxsize=10, expiration=3)
 def query(sql):
     result = f'execute {sql}'
     return result
