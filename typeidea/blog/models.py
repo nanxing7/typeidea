@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.utils.functional import cached_property
-import mistune
+from django.core.cache import cache
 from django.db import models
+
+import mistune
 
 
 # Create your models here.
@@ -150,7 +152,11 @@ class Post(models.Model):
         获取最热文章
         :return:
         """
-        return cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+        result = cache.get('hot_posts')
+        if not result:
+            result = cls.objects.filter(status=cls.STATUS_NORMAL).order_by('-pv')
+            cache.set('hot_posts', result, 10 * 60)
+        return result
 
     @cached_property  # 将返回的数据绑定在实例上，不用每次访问都去执行 sitemap_tags 函数中的代码
     def sitemap_tags(self):
