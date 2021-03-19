@@ -24,7 +24,7 @@ setup(
     install_requires=[
         'Django==2.2.7',
         'django-rest-framework==0.1.0',
-        'djangorestframework==3.10.3',
+        'djangorestframework==3.11.2',
         'mistune==0.8.4',
         'pytz==2019.3',
         'sqlparse==0.3.0',
