@@ -22,7 +22,7 @@ setup(
         'themes/*/*/*/*'
     ]},
     install_requires=[
-        'Django==2.2.7',
+        'Django==2.2.24',
         'django-rest-framework==0.1.0',
         'djangorestframework==3.10.3',
         'mistune==0.8.4',
